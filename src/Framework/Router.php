@@ -33,19 +33,23 @@ class Router
         $path = $this->normalizePath($path);
         $method = strtoupper($method);
 
+
+
         foreach($this->routes as $route) {
             if (!preg_match("#^{$route['path']}$#", $path) || $route['method'] !== $method) {
                 continue;
             }
+
+                // echo 'route found';
+                // dd('rooute found');
+
+                [$class, $function] = $route['controller'];
+
+                $controllerInstance = new $class;
+
+                $controllerInstance->{$function}();
         }
 
-
-        [$class, $function] = $route['controller'];
-
-        $controllerInstance = new $class;
-
-        // echo $controllerInstance;
-        $controllerInstance->$function();
     }
 
 };
